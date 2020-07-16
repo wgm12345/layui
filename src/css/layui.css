@@ -1396,3 +1396,20 @@ body .layui-util-face  .layui-layer-content{padding:0; background-color:#fff; co
 .layui-laypage-limits {
   margin-right: 20px!important;
 }
+
+.layui-input-tooltip {
+  display: none;
+  position: absolute;
+  background: #777;
+  padding: 10px 20px;
+  color: rgb(255, 255, 255);
+  border-radius: 5px;
+  z-index: 2023;
+  top:43px;
+  left: -10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  word-break:break-all;
+}

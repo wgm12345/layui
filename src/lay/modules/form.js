@@ -609,6 +609,14 @@ layui.define('layer', function(exports){
       item();
     });
 
+    return that;
+  };
+
+  Form.prototype.init = function(filter) {
+    var that = this
+    ,elemForm = $(ELEM + function(){
+      return filter ? ('[lay-filter="' + filter +'"]') : '';
+    }())
     // 给input绑定blur校验事件
     $(elemForm).find("input").unbind("blur").bind("blur",function(e) {
       var stop = null //验证不通过状态
@@ -677,9 +685,21 @@ layui.define('layer', function(exports){
       
       if(stop) return false;
     });
-
-    return that;
-  };
+    // 给标记了tooltip的input添加提示框
+    var $needTooltipInputs =  $(elemForm).find("input[lay-tooltip]");
+    layui.each($needTooltipInputs,function(index,item) {
+      var width = $(item).parent().width() - 20;
+      var tooltip = $(item).parent().append("<div class='layui-input-tooltip' style='width:" + width + "px;'></div>").find(".layui-input-tooltip");
+      $(item).unbind("mouseover").bind("mouseover",function() {
+        if($(this).val().length <= 0) return;
+        $(tooltip).show();
+        $(tooltip).html($(this).val());
+      });
+      $(item).unbind("mouseleave").bind("mouseleave",function() {
+        $(tooltip).hide();
+      })
+    });
+  }
   
   //表单提交校验
   var submit = function(){
@@ -770,7 +790,7 @@ layui.define('layer', function(exports){
   ,$dom = $(document), $win = $(window);
   
   form.render();
-  
+  form.init();
   //表单reset重置渲染
   $dom.on('reset', ELEM, function(){
     var filter = $(this).attr('lay-filter');
@@ -785,5 +805,3 @@ layui.define('layer', function(exports){
   
   exports(MOD_NAME, form);
 });
-
- 
