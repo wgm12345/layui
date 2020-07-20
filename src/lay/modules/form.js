@@ -618,7 +618,7 @@ layui.define('layer', function(exports){
       return filter ? ('[lay-filter="' + filter +'"]') : '';
     }())
     // 给input绑定blur校验事件
-    $(elemForm).find("input").unbind("blur").bind("blur",function(e) {
+    $(elemForm).find("input,textarea").unbind("blur").bind("blur",function(e) {
       var stop = null //验证不通过状态
       ,verify = that.config.verify //验证规则
       ,DANGER = 'layui-form-danger' //警示样式
@@ -686,10 +686,10 @@ layui.define('layer', function(exports){
       if(stop) return false;
     });
     // 给标记了tooltip的input添加提示框
-    var $needTooltipInputs =  $(elemForm).find("input[lay-tooltip]");
+    var $needTooltipInputs =  $(elemForm).find("input[lay-tooltip],textarea[lay-tooltip]");
     layui.each($needTooltipInputs,function(index,item) {
       var width = $(item).parent().width() - 20;
-      var tooltip = $(item).parent().append("<div class='layui-input-tooltip' style='width:" + width + "px;'></div>").find(".layui-input-tooltip");
+      var tooltip = $(item).parent().append("<div class='layui-input-tooltip' style='max-width:" + width + "px;'></div>").find(".layui-input-tooltip");
       $(item).unbind("mouseover").bind("mouseover",function() {
         if($(this).val().length <= 0) return;
         $(tooltip).show();
