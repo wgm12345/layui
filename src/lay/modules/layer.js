@@ -212,7 +212,7 @@ Class.pt.config = {
   isOutAnim: true,
   icon: -1,
   moveType: 1,
-  resize: true,
+  resize: false,
   scrollbar: true, //是否允许浏览器滚动条
   tips: 2
 };
