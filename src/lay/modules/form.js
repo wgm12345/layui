@@ -625,7 +625,6 @@ layui.define('layer', function(exports){
       ,$input = $(this) //当前触发的元素
       ,verifyElem = $input //获取需要校验的元素
     
-      
       //开始校验
       layui.each(verifyElem, function(_, item){
         var othis = $(this)
@@ -652,6 +651,10 @@ layui.define('layer', function(exports){
             
             //如果是必填项或者非空命中校验，则阻止提交，弹出提示
             if(isTrue){
+              if($(elemForm).find("." + DANGER).length > 0){
+                // 别的地方如果已经有错误
+                return;
+              }
               //提示层风格
               if(verType === 'tips'){
                 layer.tips(errorText, function(){
