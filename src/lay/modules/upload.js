@@ -365,7 +365,7 @@ layui.define('layer' , function(exports){
     switch(options.accept){
       case 'file': //一般文件
         if(exts && !RegExp('\\w\\.('+ exts +')$', 'i').test(escape(value))){
-          that.msg('选择的文件中包含不支持的格式');
+          that.msg("选择文件仅支持"+exts.split("|").join("、")+"格式");
           return elemFile.value = '';
         }
       break;

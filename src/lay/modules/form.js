@@ -619,23 +619,25 @@ layui.define('layer', function(exports){
     }())
     // 给input绑定blur校验事件
     $(elemForm).find("input,textarea").unbind("blur").bind("blur",function(e) {
-      var stop = null //验证不通过状态
-      ,verify = that.config.verify //验证规则
-      ,DANGER = 'layui-form-danger' //警示样式
+      // debugger;
+      var verify = that.config.verify //验证规则
+      ,DANGER = 'layui-form-danger-allways-show' //警示样式
       ,$input = $(this) //当前触发的元素
       ,verifyElem = $input //获取需要校验的元素
     
       //开始校验
       layui.each(verifyElem, function(_, item){
         var othis = $(this)
-        ,vers = othis.attr('lay-verify').split('|')
-        ,verType = othis.attr('lay-verType') //提示方式
+        ,vers = othis.attr('lay-verify') ? othis.attr('lay-verify').split('|') : []
+        // ,verType = othis.attr('lay-verType') //提示方式
         ,value = othis.val();
         
         othis.removeClass(DANGER); //移除警示样式
-        
+        othis.parent().find(".layui-input-danger-tip").remove(); // 移除警告提示
+        var isAlreadyError = false;
         //遍历元素绑定的验证规则
         layui.each(vers, function(_, thisVer){
+          if(isAlreadyError) return;
           var isTrue //是否命中校验
           ,errorText = '' //错误提示文本
           ,isFn = typeof verify[thisVer] === 'function';
@@ -651,42 +653,43 @@ layui.define('layer', function(exports){
             
             //如果是必填项或者非空命中校验，则阻止提交，弹出提示
             if(isTrue){
-              if($(elemForm).find("." + DANGER).length > 0){
-                // 别的地方如果已经有错误
-                return;
-              }
+              // if(othis.hasClass(DANGER)){
+              //   return;
+              // }
+              // if($(elemForm).find("." + DANGER).length > 0){
+              //   // 别的地方如果已经有错误
+              //   return;
+              // }
               //提示层风格
-              if(verType === 'tips'){
-                layer.tips(errorText, function(){
-                  if(typeof othis.attr('lay-ignore') !== 'string'){
-                    if(item.tagName.toLowerCase() === 'select' || /^checkbox|radio$/.test(item.type)){
-                      return othis.next();
-                    }
-                  }
-                  return othis;
-                }(), {tips: 1});
-              } else if(verType === 'alert') {
-                layer.alert(errorText, {title: '提示', shadeClose: true});
-              } else {
-                layer.msg(errorText, {icon: 5, shift: 6});
-              }
-              
+              // if(verType === 'tips'){
+              //   layer.tips(errorText, function(){
+              //     if(typeof othis.attr('lay-ignore') !== 'string'){
+              //       if(item.tagName.toLowerCase() === 'select' || /^checkbox|radio$/.test(item.type)){
+              //         return othis.next();
+              //       }
+              //     }
+              //     return othis;
+              //   }(), {tips: 1});
+              // } else if(verType === 'alert') {
+              //   layer.alert(errorText, {title: '提示', shadeClose: true});
+              // } else {
+              //   layer.msg(errorText, {icon: 5, shift: 6});
+              // }
               //非移动设备自动定位焦点
-              if(!device.android && !device.ios){
-                setTimeout(function(){
-                  item.focus(); 
-                }, 7);
-              }
+              // if(!device.android && !device.ios){
+              //   setTimeout(function(){
+              //     item.focus(); 
+              //   }, 7);
+              // }
               
+              // 新增提示tip 
+              othis.after("<p class='layui-input-danger-tip'>" + errorText + "</p>");
               othis.addClass(DANGER);
-              return stop = true;
+              isAlreadyError = true;
             }
           }
         });
-        if(stop) return stop;
       });
-      
-      if(stop) return false;
     });
     // 给标记了tooltip的input添加提示框
     var $needTooltipInputs =  $(elemForm).find("input[lay-tooltip],textarea[lay-tooltip]");

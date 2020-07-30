@@ -632,7 +632,7 @@ hr, .layui-timeline-item:before{background-color: #e6e6e6;}
 .layui-form-text .layui-input-inline{width: auto;}
 
 /* 分割块 */.layui-form-mid{position: relative; float: left; display: block; padding: 9px 0 !important; line-height: 20px; margin-right: 10px;}
-/* 警告域 */.layui-form-danger:focus
+/* 警告域 */.layui-form-danger-allways-show,.layui-form-danger:focus
 ,.layui-form-danger+.layui-form-select .layui-input{border-color: #FF5722 !important;}
 
 
@@ -1412,4 +1412,11 @@ body .layui-util-face  .layui-layer-content{padding:0; background-color:#fff; co
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
   word-break:break-all;
+}
+
+p.layui-input-danger-tip{
+  display: block;
+  position: absolute;
+  font-size: 12px;
+  color: #FF5722 !important;
 }
