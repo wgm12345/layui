@@ -1530,6 +1530,11 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
         that.syncCheckAll();
         that.renderForm('checkbox');
       } else {
+        if(checked){
+          $(this).closest('tr').addClass('layui-table-checked')
+        } else {
+          $(this).closest('tr').removeClass('layui-table-checked')
+        }
         that.setCheckData(index, checked);
         that.syncCheckAll();
       }

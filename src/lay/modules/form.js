@@ -492,9 +492,11 @@ layui.define('layer', function(exports){
             check[0].checked ? (
               check[0].checked = false
               ,reElem.removeClass(RE_CLASS[1]).find('em').text(text[1])
+              ,$(reElem).parent('tr').removeClass('layui-table-checked')
             ) : (
               check[0].checked = true
               ,reElem.addClass(RE_CLASS[1]).find('em').text(text[0])
+              ,$(reElem).parent('tr').addClass('layui-table-checked')
             );
             
             layui.event.call(check[0], MOD_NAME, RE_CLASS[2]+'('+ filter +')', {
