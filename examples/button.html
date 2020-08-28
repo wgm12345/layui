@@ -32,7 +32,7 @@ body{padding: 10px;}
 
 <span>按钮图标：</span>
 
-<button class="layui-btn"><i class="layui-icon">&#xe603;</i></button>
+<button class="layui-btn" lay-tip='向左'><i class="layui-icon">&#xe603;</i></button>
 <button class="layui-btn"><i class="layui-icon">&#xe602;</i></button>
 <button class="layui-btn"><i class="layui-icon">&#xe654;</i></button>
 <button class="layui-btn"><i class="layui-icon">&#xe642;</i></button>
@@ -45,7 +45,7 @@ body{padding: 10px;}
 <span>按钮尺寸：</span>
 
 
-<button class="layui-btn layui-btn-big">大型按钮</button>
+<button class="layui-btn layui-btn-big" lay-tip='大型按钮'>大型按钮</button>
 <button class="layui-btn">默认按钮</button>
 <button class="layui-btn layui-btn-small">小型按钮</button>
 <button class="layui-btn layui-btn-mini">迷你按钮</button>
@@ -103,7 +103,43 @@ body{padding: 10px;}
 <script src="../src/layui.js"></script>
 
 <script>
-
+layui.use(['layer'], function(){
+  var layer = layui.layer;
+  var $ = layui.jquery;
+  // function throttle(func, delay) {
+  //   var run = true
+  //   var count = 0;
+  //   return function () {
+  //     if (!run) {
+  //       return  // 如果开关关闭了，那就直接不执行下边的代码
+  //     }
+  //     run = false // 持续触发的话，run一直是false，就会停在上边的判断那里
+  //     var that = this;
+  //     setTimeout(function() {
+  //       func.apply(that, arguments)
+  //       run = true; // 定时器到时间之后，会把开关打开，我们的函数就会被执行
+  //       count++;
+  //     }, count > 0 ? delay : 0)
+  //   }
+  // }
+  // $('[lay-tip]').on("mouseover",throttle(function(){
+  //     var that = this;
+  //     var tip = that.getAttribute("lay-tip");
+  //     layer.tips(tip, that,{
+  //       tips: 1
+  //     });
+  //   },1000))
+  $('[lay-tip]').on("mouseover",function(){
+    var that = this;
+    var tip = that.getAttribute("lay-tip");
+    var index = layer.tips(tip, that,{
+      tips: 1
+    });
+    $(that).on("mouseleave",function(){
+      layer.close(index);
+    })
+  })
+})
 </script>
 </body>
 </html>
