@@ -194,9 +194,9 @@ html #layuicss-layer{display: none; position: absolute; width: 1989px;}
   border-bottom: none;
 }
 
-.layui-table-box {
+/* .layui-table-box {
   margin: 0 15px;
-}
+} */
 
 .layui-table-tool-temp {
   right: 5px;
