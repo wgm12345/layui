@@ -237,6 +237,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
   Class.prototype.config = {
     limit: 10 //每页显示的数量
     ,loading: true //请求数据时，是否显示loading
+    ,even:true // 默认为间隔行
     ,cellMinWidth: 60 //所有单元格默认最小宽度
     ,defaultToolbar: ['filter', 'exports', 'print'] //工具栏右侧图标
     ,autoSort: true //是否前端自动排序。如果否，则需自主排序（通常为服务端处理好排序）
