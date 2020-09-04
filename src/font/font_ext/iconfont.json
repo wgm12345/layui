@@ -1,0 +1,30 @@
+{
+  "id": "2038562",
+  "name": "layui-ext",
+  "font_family": "layui-ext-iconfont",
+  "css_prefix_text": "layui-ext-icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "5121520",
+      "name": "文件夹",
+      "font_class": "folder-open",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "7239456",
+      "name": "file",
+      "font_class": "file",
+      "unicode": "e6ef",
+      "unicode_decimal": 59119
+    },
+    {
+      "icon_id": "15984015",
+      "name": "文件夹",
+      "font_class": "folder",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    }
+  ]
+}

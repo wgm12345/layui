@@ -241,6 +241,38 @@ a cite{font-style: normal; *cursor:pointer;}
 .layui-icon-reduce-circle:before{content:"\e616"}
 .layui-icon-music:before{content:"\e690"}
 
+/* 拓展图标和字体 */
+@font-face {font-family: "layui-ext-iconfont";
+  src: url('../font/font_ext/iconfont.eot?t=1598922199609'); /* IE9 */
+  src: url('../font/font_ext/iconfont.eot?t=1598922199609#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../font/font_ext/data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAN4AAsAAAAAB7wAAAMrAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDHAqCAIFtATYCJAMQCwoABCAFhWUHRRvUBhEVlKNkfz16yEaNcaquMlKV3Y0TzpxJkBBmS1g6izD1SEqbr/vhD5QZhEfe7wfP8+N4z33vfoAe1OcIM6/+NFc4wnn2gAuhR4drW8Y0x7j8fKKBbueRZzr/DCV5fnnv13kB4YDHOJGBQ+7tgVqgXB8gwNnqqC+5c/2A52uuAZbm3iUg/7/v/5w/Aj8dNVeUs+g/+cJN6dFJMxL6o4xtBwyp2i1RZ+Hm/5q6BB/IFYDe/XXbjlb5vAo8mqOomyIJB4hbZHcGeVHnIYArkdJJfWN7P84o1jQBZM3KpRmccySKCg5nBMeatYrsxwFns8M8AfvC38sXuXEGg4PFmtu92DBP9Xveb/0f4z4FMJ0eEDaBBdKBgqyoNc5iY2s6i6vmrhQCZ5tl4H2N//g/UcOGcSJk6B/PgDhi+bsDkI9tFt7jEqlILEewaOyHAfgga5wBR6ARGMGShk9znUE8/OKr945fj/cc234ryevKDdZ5ycmbru6eaef1YK3ru/EIuu26q+fOm+KUfambx66AkUE2ug+69+uFp+H+j8PFZ2oBf5xm7gW9NvznMxYRyMijvGDr0PPs3eB/Kb5Oei2vvN6MvA/3fz+5FfXs2XPy39k6G2lrdJHqak54k+VyhOoaNgDwP9d4Mg/ZbQB2ufbqx3H+zM/qVX5x6KzX9ZyQ/xU48f6ABl40AMapzrFUqirXJQx/JYaFMw5wxRV4vU7w9W4KcQDYHwRfASlkcCKJbzVmJl8xsxpywI1eyBFfE5AradZvdsPPSSyiLkCqOwgS4j2HDJ78hizxcaEqEwi0dIj8VR0zaOcv/3vuHfPOgkJRU/mhrvKOnam6M8Xn0UV4a1Ss5wvNwxRSGUL5xR9k7LyjLE4bHHc4yFILxmeTqzKxeEs39TIY4ymI71Fp3KqGU5Jw3ZfiytvJzpmAgoIaKX2QTsVz2HdXO0ahUx+9R+BNRQDzF2gEHJa5gCMm2D8gRlxvPsnE0kHUu9ANDHq0e0ZPjZxSjDDhWeSmjQLD8EioH9WDioq1A8zBSWInY6gwXl5s/04R4Mq6SZu269l/b2pI5APcgjuDVUExmQAA') format('woff2'),
+  url('../font/font_ext/iconfont.woff?t=1598922199609') format('woff'),
+  url('../font/font_ext/iconfont.ttf?t=1598922199609') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('../font/font_ext/iconfont.svg?t=1598922199609#layui-ext-iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.layui-ext-iconfont {
+  font-family: "layui-ext-iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.layui-ext-icon-folder-open:before {
+  content: "\e64b";
+}
+
+.layui-ext-icon-file:before {
+  content: "\e6ef";
+}
+
+.layui-ext-icon-folder:before {
+  content: "\e600";
+}
+
+/* 拓展图标和字体 */
+
 /* 基本布局 */
 .layui-main{position: relative; width: 1140px; margin: 0 auto;}
 .layui-header{position: relative; z-index: 1000; height: 60px;}
@@ -1312,7 +1344,7 @@ body .layui-util-face  .layui-layer-content{padding:0; background-color:#fff; co
 .layui-tree-line .layui-tree-set.layui-tree-setHide:before{height: 0;}
 .layui-tree-iconClick{display: inline-block; vertical-align: middle; position: relative; height: 20px; line-height: 20px; margin: 0 10px; color: #c0c4cc;}
 .layui-tree-icon{height: 12px; line-height: 12px; width: 12px; text-align: center; border: 1px solid #c0c4cc;}
-.layui-tree-iconClick .layui-icon{font-size: 18px;}
+.layui-tree-iconClick .layui-icon{font-size: 16px;}
 .layui-tree-icon .layui-icon{font-size: 12px; color: #666;}
 .layui-tree-iconArrow{padding: 0 5px;}
 .layui-tree-iconArrow:after{content: ''; position: absolute; left: 4px; top: 3px; z-index: 100; width: 0; height: 0; border-width: 5px; border-style: solid; border-color: transparent transparent transparent #c0c4cc; transition: 0.5s;}
@@ -1455,3 +1487,26 @@ p.layui-input-danger-tip{
 .layui-table[lay-even] tr:nth-child(even) {
   background-color: #fafafa;
 }
+
+/* wgm ext */
+
+.layui-tree-icon{
+  background-color: #fff;
+  color: #00ada6;
+  height: 16px;
+  width: 16px;
+  border: none;
+}
+
+.layui-tree-icon i.layui-icon,.layui-tree-icon span.layui-icon{
+  font-size: 16px;
+  line-height: 16px;
+  color: inherit!important;
+  
+}
+
+.layui-tree .layui-form-checkbox i.layui-icon{
+  top:1px;
+}
+
+/* wgm ext */

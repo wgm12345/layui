@@ -141,7 +141,7 @@ var argv = require('minimist')(process.argv.slice(2), {
     
     var dir = destDir(ver);
     
-    return gulp.src('./src/font/*')
+    return gulp.src('./src/font/**')
     .pipe(rename({}))
     .pipe(gulp.dest('./'+ dir +'/font'));
   }

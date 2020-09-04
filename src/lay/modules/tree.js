@@ -69,7 +69,9 @@ layui.define('form', function(exports){
   ,SHOW = 'layui-show', HIDE = 'layui-hide', NONE = 'layui-none', DISABLED = 'layui-disabled'
   
   ,ELEM_VIEW = 'layui-tree', ELEM_SET = 'layui-tree-set', ICON_CLICK = 'layui-tree-iconClick'
-  ,ICON_ADD = 'layui-icon-addition', ICON_SUB = 'layui-icon-subtraction', ELEM_ENTRY = 'layui-tree-entry', ELEM_MAIN = 'layui-tree-main', ELEM_TEXT = 'layui-tree-txt', ELEM_PACK = 'layui-tree-pack', ELEM_SPREAD = 'layui-tree-spread'
+  // ,ICON_ADD = 'layui-icon-addition', ICON_SUB = 'layui-icon-subtraction'
+  ,ICON_EXT="layui-ext-iconfont",ICON_ADD = 'layui-ext-icon-folder', ICON_SUB = 'layui-ext-icon-folder-open'
+  ,ELEM_ENTRY = 'layui-tree-entry', ELEM_MAIN = 'layui-tree-main', ELEM_TEXT = 'layui-tree-txt', ELEM_PACK = 'layui-tree-pack', ELEM_SPREAD = 'layui-tree-spread'
   ,ELEM_LINE_SHORT = 'layui-tree-setLineShort', ELEM_SHOW = 'layui-tree-showLine', ELEM_EXTEND = 'layui-tree-lineExtend'
  
   //构造器
@@ -182,9 +184,10 @@ layui.define('form', function(exports){
             ,function(){
               if(options.showLine){
                 if(hasChild){
-                  return '<span class="layui-tree-iconClick layui-tree-icon"><i class="layui-icon '+ (item.spread ? "layui-icon-subtraction" : "layui-icon-addition") +'"></i></span>';
+                  return '<span class="layui-tree-iconClick layui-tree-icon"><i class="layui-icon '+ (item.spread ? "layui-ext-iconfont layui-ext-icon-folder-open" : "layui-ext-iconfont layui-ext-icon-folder") +'"></i></span>';
                 }else{
-                  return '<span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span>';
+                  // return '<span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span>';
+                  return '<span class="layui-tree-iconClick"><i class="layui-icon layui-ext-iconfont layui-ext-icon-file"></i></span>';
                 };
               }else{
                 return '<span class="layui-tree-iconClick"><i class="layui-tree-iconArrow '+ (hasChild ? "": HIDE) +'"></i></span>';
@@ -428,7 +431,8 @@ layui.define('form', function(exports){
           //若开启连接线，更改图标样式
           if(options.showLine){
             elemMain.find('.'+ICON_CLICK).addClass('layui-tree-icon');
-            elemMain.find('.'+ICON_CLICK).children('.layui-icon').addClass(ICON_ADD).removeClass('layui-icon-file');
+            // elemMain.find('.'+ICON_CLICK).children('.layui-icon').addClass(ICON_ADD).removeClass('layui-icon-file');
+            elemMain.find('.'+ICON_CLICK).children('.layui-icon').addClass(ICON_ADD).removeClass('layui-ext-icon-file');
           //若未开启连接线，显示箭头
           }else{
             elemMain.find('.layui-tree-iconArrow').removeClass(HIDE);
@@ -627,7 +631,8 @@ layui.define('form', function(exports){
             //若开启了连接线
             if(options.showLine){
               prevDiv.find('.'+ICON_CLICK).removeClass('layui-tree-icon');
-              prevDiv.find('.'+ICON_CLICK).children('.layui-icon').removeClass(ICON_SUB).addClass('layui-icon-file');
+              // prevDiv.find('.'+ICON_CLICK).children('.layui-icon').removeClass(ICON_SUB).addClass('layui-icon-file');
+              prevDiv.find('.'+ICON_CLICK).children('.layui-icon').removeClass(ICON_SUB).addClass('layui-ext-icon-file');
               //父节点所在层添加延伸线
               var pare = prevDiv.parents('.'+ELEM_PACK).eq(0);
               pare.addClass(ELEM_EXTEND);
