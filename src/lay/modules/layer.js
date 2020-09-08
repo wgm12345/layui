@@ -458,6 +458,13 @@ Class.pt.offset = function(){
     that.offsetLeft = layero.css('left');
   }
 
+  // 保证头部不会超出屏幕
+  if(that.offsetTop <= 0){
+    that.offsetTop = 0;
+    // 弹出框比页面高了，保证可以滚动
+    layero.css({position: "absolute"});
+  }
+
   layero.css({top: that.offsetTop, left: that.offsetLeft});
 };
 
