@@ -190,6 +190,13 @@ layui.define('layer', function(exports){
             }
             
             followScroll();
+            // 如果包裹在table里面，撑开table
+            var $hasTable = $(reElem).closest("table");
+            if($hasTable.length > 0){
+              var $tableMain = $hasTable.parent();
+              var oldTableHeight = $tableMain.height();
+              $tableMain.css("height", oldTableHeight + dlHeight + 'px');
+            }
           }
           
           //隐藏下拉
@@ -197,7 +204,14 @@ layui.define('layer', function(exports){
             reElem.removeClass(CLASS+'ed ' + CLASS+'up');
             input.blur();
             nearElem = null;
-            
+             // 如果包裹在table里面，撑开table
+            var $hasTable = $(reElem).closest("table");
+            if($hasTable.length > 0){
+              var $tableMain = $hasTable.parent();
+              var oldTableHeight = $tableMain.height();
+              $tableMain.css("height", oldTableHeight - dl.outerHeight() + 'px');
+            }
+
             if(choose) return;
             
             notOption(input.val(), function(none){
