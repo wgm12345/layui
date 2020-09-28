@@ -192,7 +192,9 @@ layui.define('layer', function(exports){
             followScroll();
             // 如果包裹在table里面，撑开table
             var $hasTable = $(reElem).closest("table");
-            if($hasTable.length > 0){
+            var $tableView = $(reElem).closest(".layui-table-view");
+            // 没有定高才撑开，定高内部滚动
+            if($tableView.length > 0 && !$tableView[0].style.height && $hasTable.length > 0){
               var $tableMain = $hasTable.parent();
               var oldTableHeight = $tableMain.height();
               $tableMain.css("height", oldTableHeight + dlHeight + 'px');
@@ -204,9 +206,10 @@ layui.define('layer', function(exports){
             reElem.removeClass(CLASS+'ed ' + CLASS+'up');
             input.blur();
             nearElem = null;
-             // 如果包裹在table里面，撑开table
+             // 如果包裹在table里面，收缩table
             var $hasTable = $(reElem).closest("table");
-            if($hasTable.length > 0){
+            var $tableView = $(reElem).closest(".layui-table-view");
+            if($tableView.length > 0 && !$tableView[0].style.height && $hasTable.length > 0){
               var $tableMain = $hasTable.parent();
               var oldTableHeight = $tableMain.height();
               $tableMain.css("height", oldTableHeight - dl.outerHeight() + 'px');

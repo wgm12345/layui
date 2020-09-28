@@ -1509,4 +1509,8 @@ p.layui-input-danger-tip{
   top:1px;
 }
 
+.layui-table-view dl.layui-anim-upbit{
+  bottom:auto;
+}
+
 /* wgm ext */
