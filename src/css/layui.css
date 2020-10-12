@@ -1513,7 +1513,9 @@ p.layui-input-danger-tip{
   bottom:auto;
 }
 
-.layui-table thead  th {
+.layui-table thead  th,.layui-table[lay-skin=nob] thead th {
+  border-width: 1px;
+  border-style: solid;
   border-color: #e6e6e6;
 }
 
