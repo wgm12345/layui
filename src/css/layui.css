@@ -1513,4 +1513,8 @@ p.layui-input-danger-tip{
   bottom:auto;
 }
 
+.layui-table thead  th {
+  border-color: #e6e6e6;
+}
+
 /* wgm ext */
