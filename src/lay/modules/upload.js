@@ -466,9 +466,11 @@ layui.define('layer' , function(exports){
       if(elemFile.next().hasClass(ELEM_CHOOSE)){
         elemFile.next().remove();
       }
-      that.upload(null, 'choose');
+      var flag = that.upload(null, 'choose');
       if(that.isFile() || options.choose) return;
-      elemFile.after('<span class="layui-inline '+ ELEM_CHOOSE +'">'+ value +'</span>');
+      if(files.length > 0){
+        elemFile.after('<span class="layui-inline '+ ELEM_CHOOSE +'">'+ value +'</span>');
+      }
     };
 
     //点击上传容器

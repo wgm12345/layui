@@ -289,13 +289,13 @@ layui.use(['upload', 'element'], function(){
     ,auto: false
     //,multiple: true
     ,bindAction: '#test7'
-    ,choose: function(obj){   
-      var that = this;
-      obj.preview(function(index, file){
-        console.log(file.name)
-        obj.resetFile(index, file, '123.jpg');
-      });
-    }
+    // ,choose: function(obj){   
+    //   var that = this;
+    //   obj.preview(function(index, file){
+    //     console.log(file.name)
+    //     obj.resetFile(index, file, '123.jpg');
+    //   });
+    // }
     ,before: function(){
       console.log(345);
     }
