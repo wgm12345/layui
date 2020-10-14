@@ -124,7 +124,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
               ,'{{# if(item2.type === "checkbox"){ }}' //复选框
                 ,'<input type="checkbox" name="layTableCheckbox" lay-skin="primary" lay-filter="layTableAllChoose" {{# if(item2[d.data.checkName]){ }}checked{{# }; }}>'
               ,'{{# } else { }}'
-                ,'<span title="{{item2.title||""}}">{{item2.title||""}}</span>'
+                ,'<span title="{{item2.titleTips ? item2.titleTips : (item2.title||"")}}">{{item2.title||""}}</span>'
                 ,'{{# if(isSort){ }}'
                   ,'<span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="升序"></i><i class="layui-edge layui-table-sort-desc" title="降序"></i></span>'
                 ,'{{# } }}'
