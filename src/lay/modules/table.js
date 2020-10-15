@@ -81,6 +81,20 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
     }() : content;
     return text ? $('<div>'+ str +'</div>').text() : str;
   }
+  // 过滤掉html标签（用来制作单元格的title提示标签）
+  ,filterHtmlTagFromStr = function(str) {
+    if(typeof str !== 'string') return '';
+    // 去掉标签
+    var reg = /<[^<>]+>/g;
+    var res = str.replace(reg, ' ');
+    // 去掉引号
+    var reg2 = /[\'\"]/g;
+    res = res.replace(reg2,'');
+    // 去掉注释
+    var reg3 = /<!--(.|[\r\n])*?-->/g;
+    res = res.replace(reg3,'');
+    return res;
+  }
   
   //字符常量
   ,MOD_NAME = 'table', ELEM = '.layui-table', THIS = 'layui-this', SHOW = 'layui-show', HIDE = 'layui-hide', DISABLED = 'layui-disabled', NONE = 'layui-none'
@@ -792,6 +806,43 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
           if(content === undefined || content === null) content = '';
           if(item3.colGroup) return;
           
+          function renderTdContent() {
+            var tplData = $.extend(true, {
+              LAY_INDEX: numbers
+            }, item1)
+            ,checkName = table.config.checkName;
+            
+            //渲染不同风格的列
+            switch(item3.type){
+              case 'checkbox':
+                return '<input type="checkbox" name="layTableCheckbox" lay-skin="primary" '+ function(){
+                  //如果是全选
+                  if(item3[checkName]){
+                    item1[checkName] = item3[checkName];
+                    return item3[checkName] ? 'checked' : '';
+                  }
+                  return tplData[checkName] ? 'checked' : '';
+                }() +'>';
+              break;
+              case 'radio':
+                if(tplData[checkName]){
+                  thisCheckedRowIndex = i1;
+                }
+                return '<input type="radio" name="layTableRadio_'+ options.index +'" '
+                + (tplData[checkName] ? 'checked' : '') +' lay-type="layTableRadio">';
+              break;
+              case 'numbers':
+                return numbers;
+              break;
+            };
+            
+            //解析工具列模板
+            if(item3.toolbar){
+              return laytpl($(item3.toolbar).html()||'').render(tplData);
+            }
+            return parseTempData(item3, content, tplData);
+          }
+
           //td内容
           var td = ['<td data-field="'+ field +'" data-key="'+ key +'" '+ function(){ //追加各种属性
             var attr = [];
@@ -812,42 +863,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
             ,'<div class="layui-table-cell laytable-cell-'+ function(){ //返回对应的CSS类标识
               return item3.type === 'normal' ? key 
               : (key + ' laytable-cell-' + item3.type);
-            }() +'">' + function(){
-              var tplData = $.extend(true, {
-                LAY_INDEX: numbers
-              }, item1)
-              ,checkName = table.config.checkName;
-              
-              //渲染不同风格的列
-              switch(item3.type){
-                case 'checkbox':
-                  return '<input type="checkbox" name="layTableCheckbox" lay-skin="primary" '+ function(){
-                    //如果是全选
-                    if(item3[checkName]){
-                      item1[checkName] = item3[checkName];
-                      return item3[checkName] ? 'checked' : '';
-                    }
-                    return tplData[checkName] ? 'checked' : '';
-                  }() +'>';
-                break;
-                case 'radio':
-                  if(tplData[checkName]){
-                    thisCheckedRowIndex = i1;
-                  }
-                  return '<input type="radio" name="layTableRadio_'+ options.index +'" '
-                  + (tplData[checkName] ? 'checked' : '') +' lay-type="layTableRadio">';
-                break;
-                case 'numbers':
-                  return numbers;
-                break;
-              };
-              
-              //解析工具列模板
-              if(item3.toolbar){
-                return laytpl($(item3.toolbar).html()||'').render(tplData);
-              }
-              return parseTempData(item3, content, tplData);
-            }()
+            }() +'" title="', filterHtmlTagFromStr(renderTdContent()) ,'">' + renderTdContent()
           ,'</div></td>'].join('');
           
           tds.push(td);
@@ -1649,9 +1665,11 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
         return;
       }
     }).on('mouseenter', 'td', function(){
-      gridExpand.call(this)
+    // wgm 修改为title 显示  
+    //  gridExpand.call(this) 
     }).on('mouseleave', 'td', function(){
-       gridExpand.call(this, 'hide');
+    // wgm 修改为title 显示  
+    //    gridExpand.call(this, 'hide');
     });
     
     //单元格展开图标
