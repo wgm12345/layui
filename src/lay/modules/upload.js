@@ -326,6 +326,20 @@ layui.define('layer' , function(exports){
         });
         return that.files;
       }
+      // 获取文件
+      ,getFiles: function() {
+        return {
+          files: that.files,
+          chooseFiles:that.chooseFiles
+        };
+      }
+      // 删除文件
+      ,removeFile: function (index) {
+        that.files = that.files || {};
+        that.chooseFiles = that.chooseFiles || {};
+        delete that.files[index];
+        delete that.chooseFiles[index];
+      }
       //重置文件
       ,resetFile: function(index, file, filename){
         var newFile = new File([file], filename);
