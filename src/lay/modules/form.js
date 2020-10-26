@@ -188,16 +188,59 @@ layui.define('layer', function(exports){
             if(top + dlHeight > $win.height() && top >= dlHeight){
               reElem.addClass(CLASS + 'up');
             }
-            
+
             followScroll();
             // 如果包裹在table里面，撑开table
             var $hasTable = $(reElem).closest("table");
-            var $tableView = $(reElem).closest(".layui-table-view");
+            var $tableView = $(reElem).closest(".layui-table-view[lay-id]");
             // 没有定高才撑开，定高内部滚动
-            if($tableView.length > 0 && !$tableView[0].style.height && $hasTable.length > 0){
-              var $tableMain = $hasTable.parent();
-              var oldTableHeight = $tableMain.height();
-              $tableMain.css("height", oldTableHeight + dlHeight + 'px');
+            // if($tableView.length > 0 && !$tableView[0].style.height && $hasTable.length > 0){
+            //   var $tableMain = $hasTable.parent();
+            //   var oldTableHeight = $tableMain.height();
+            //   $tableMain.css("height", oldTableHeight + dlHeight + 'px');
+            // }
+            if($tableView.length > 0 ){
+              // 元素在表格内 将下拉框置于body内
+              var tableId = $tableView.attr("lay-id");
+              var follow =  $(reElem);
+              var $thisCell = follow.closest("td");
+              var cellId = $thisCell.attr("data-key");
+              var $thisTr = follow.closest("tr");
+              var rowId = $thisTr.attr("data-index");
+              var layerId = tableId + '-' + rowId + '-' + cellId;
+              var goal = {
+                width: follow.outerWidth(),
+                height: follow.outerHeight(),
+                top: follow.offset().top,
+                left: follow.offset().left
+              }
+              var $dropDownElement = $("body").find(".layui-anim-upbit[table-cell-id='" + layerId + "']");
+              if($dropDownElement.length > 0 ) {
+                // 已经移动到body
+                $dropDownElement.show();
+              } else {
+                // 移动到body
+                $dropDownElement = $(reElem).find(".layui-anim-upbit");
+                $dropDownElement.attr("table-cell-id",layerId);
+              }
+              var layArea = [$dropDownElement.outerWidth(), $dropDownElement.outerHeight()];
+              goal.autoLeft = function(){
+                if(goal.left + layArea[0] - $win.width() > 0){
+                  goal.tipLeft = goal.left + goal.width - layArea[0];
+                } else {
+                  goal.tipLeft = goal.left;
+                };
+              };
+              goal.autoLeft();
+              goal.tipTop = goal.top + goal.height + 10;
+              $("body").append($dropDownElement);
+              $dropDownElement.css("position", 'absolute')
+              .css("min-width",'0px')
+              .css("width",$(reElem).width() + 'px')
+              .css({
+                left: goal.tipLeft - $hasTable.scrollLeft(), 
+                top: goal.tipTop  - $hasTable.scrollTop()
+              })
             }
           }
           
@@ -206,13 +249,28 @@ layui.define('layer', function(exports){
             reElem.removeClass(CLASS+'ed ' + CLASS+'up');
             input.blur();
             nearElem = null;
-             // 如果包裹在table里面，收缩table
-            var $hasTable = $(reElem).closest("table");
-            var $tableView = $(reElem).closest(".layui-table-view");
-            if($tableView.length > 0 && !$tableView[0].style.height && $hasTable.length > 0){
-              var $tableMain = $hasTable.parent();
-              var oldTableHeight = $tableMain.height();
-              $tableMain.css("height", oldTableHeight - dl.outerHeight() + 'px');
+            //  // 如果包裹在table里面，收缩table
+            // var $hasTable = $(reElem).closest("table");
+            // var $tableView = $(reElem).closest(".layui-table-view");
+            // if($tableView.length > 0 && !$tableView[0].style.height && $hasTable.length > 0){
+            //   var $tableMain = $hasTable.parent();
+            //   var oldTableHeight = $tableMain.height();
+            //   $tableMain.css("height", oldTableHeight - dl.outerHeight() + 'px');
+            // }
+            // 如果包裹在table里面，收缩table
+            var $tableView = $(reElem).closest(".layui-table-view[lay-id]");
+            if($tableView.length > 0 ){
+              // 元素在表格内 将下拉框置于body内
+              var tableId = $tableView.attr("lay-id");
+              var follow =  $(reElem);
+              var $thisCell = follow.closest("td");
+              var cellId = $thisCell.attr("data-key");
+              var $thisTr = follow.closest("tr");
+              var rowId = $thisTr.attr("data-index");
+              var layerId = tableId + '-' + rowId + '-' + cellId;
+              var $dropDownElement = $("body").find(".layui-anim-upbit[table-cell-id='" + layerId + "']");
+              $dropDownElement.attr("teble-cell-id",layerId);
+              $dropDownElement.hide();
             }
 
             if(choose) return;
