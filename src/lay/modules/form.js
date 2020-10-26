@@ -154,6 +154,9 @@ layui.define('layer', function(exports){
         ,hide = function(e, clear){
           if(!$(e.target).parent().hasClass(TITLE) || clear){
             $('.'+CLASS).removeClass(CLASS+'ed ' + CLASS+'up');
+             // wgm : hide table select dropdown
+            $('dl.layui-anim.layui-anim-upbit').hide();
+            // wgm : hide table select dropdown
             thatInput && initValue && thatInput.val(initValue);
           }
           thatInput = null;
@@ -193,6 +196,7 @@ layui.define('layer', function(exports){
             // 如果包裹在table里面，撑开table
             var $hasTable = $(reElem).closest("table");
             var $tableView = $(reElem).closest(".layui-table-view[lay-id]");
+            var $selectContaner = $tableView;
             // 没有定高才撑开，定高内部滚动
             // if($tableView.length > 0 && !$tableView[0].style.height && $hasTable.length > 0){
             //   var $tableMain = $hasTable.parent();
@@ -214,30 +218,28 @@ layui.define('layer', function(exports){
                 top: follow.offset().top,
                 left: follow.offset().left
               }
-              var $dropDownElement = $("body").find(".layui-anim-upbit[table-cell-id='" + layerId + "']");
+              var $dropDownElement = $selectContaner.find(".layui-anim-upbit[table-cell-id='" + layerId + "']");
               if($dropDownElement.length > 0 ) {
                 // 已经移动到body
+                $dropDownElement.css("position", 'absolute')
+                .css("min-width",'0px')
+                .css("width",$(reElem).width() + 'px');
                 $dropDownElement.show();
+                $(reElem).find(".layui-anim-upbit").remove();
               } else {
                 // 移动到body
                 $dropDownElement = $(reElem).find(".layui-anim-upbit");
                 $dropDownElement.attr("table-cell-id",layerId);
+                $selectContaner.append($dropDownElement);
+                $(reElem).find(".layui-anim-upbit").remove();
+                $dropDownElement.css("position", 'absolute')
+                .css("min-width",'0px')
+                .css("width",$(reElem).width() + 'px');
+                $dropDownElement.show();
               }
-              var layArea = [$dropDownElement.outerWidth(), $dropDownElement.outerHeight()];
-              goal.autoLeft = function(){
-                if(goal.left + layArea[0] - $win.width() > 0){
-                  goal.tipLeft = goal.left + goal.width - layArea[0];
-                } else {
-                  goal.tipLeft = goal.left;
-                };
-              };
-              goal.autoLeft();
-              goal.tipTop = goal.top + goal.height + 10;
-              $("body").append($dropDownElement);
-              $dropDownElement.css("position", 'absolute')
-              .css("min-width",'0px')
-              .css("width",$(reElem).width() + 'px')
-              .css({
+              goal.tipTop = goal.top - $selectContaner.offset().top + goal.height + 5;
+              goal.tipLeft = goal.left - $selectContaner.offset().left;
+              $dropDownElement.css({
                 left: goal.tipLeft - $hasTable.scrollLeft(), 
                 top: goal.tipTop  - $hasTable.scrollTop()
               })
@@ -259,8 +261,9 @@ layui.define('layer', function(exports){
             // }
             // 如果包裹在table里面，收缩table
             var $tableView = $(reElem).closest(".layui-table-view[lay-id]");
+            var $selectContaner = $tableView;
             if($tableView.length > 0 ){
-              // 元素在表格内 将下拉框置于body内
+              // 元素在表格内 将下拉框置于table-view内
               var tableId = $tableView.attr("lay-id");
               var follow =  $(reElem);
               var $thisCell = follow.closest("td");
@@ -268,7 +271,7 @@ layui.define('layer', function(exports){
               var $thisTr = follow.closest("tr");
               var rowId = $thisTr.attr("data-index");
               var layerId = tableId + '-' + rowId + '-' + cellId;
-              var $dropDownElement = $("body").find(".layui-anim-upbit[table-cell-id='" + layerId + "']");
+              var $dropDownElement = $selectContaner.find(".layui-anim-upbit[table-cell-id='" + layerId + "']");
               $dropDownElement.attr("teble-cell-id",layerId);
               $dropDownElement.hide();
             }
