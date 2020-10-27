@@ -16,6 +16,7 @@ layui.define(["laydate","laytpl","table","layer","tableEdit","form"],function(ex
     thisCss.push('.layui-tableEdit-edge{position:absolute;left:8px;bottom:0;font-size:15x;z-index:19910908445;}');
     thisCss.push('.layui-tableEdit-tab{position:absolute;left:25px;bottom:0;font-size:15px;z-index:19910908445;}');
     thisCss.push('.layui-tableEdit-span {position:absolute;left:25px;bottom:0;}');
+    thisCss.push('.layui-layer-content .layui-tableEdit-span {position:static;left:25px;bottom:0;}');
     var thisStyle = document.createElement('style');
     thisStyle.innerHTML = thisCss.join('\n'),document.getElementsByTagName('head')[0].appendChild(thisStyle);
 
@@ -506,6 +507,20 @@ layui.define(["laydate","laytpl","table","layer","tableEdit","form"],function(ex
             });
             return rs;
         }
+         // 过滤掉html标签（用来制作单元格的title提示标签）
+        ,filterHtmlTagFromStr: function(str) {
+            if(typeof str !== 'string') return '';
+            // 去掉标签
+            var reg = /<[^<>]+>/g;
+            var res = str.replace(reg, ' ');
+            // 去掉引号
+            var reg2 = /[\'\"]/g;
+            res = res.replace(reg2,'');
+            // 去掉注释
+            var reg3 = /<!--(.|[\r\n])*?-->/g;
+            res = res.replace(reg3,'');
+            return res;
+        }
         /**
          * 清除当前数据
          * @param data 当前数据
@@ -884,12 +899,12 @@ layui.define(["laydate","laytpl","table","layer","tableEdit","form"],function(ex
                     var text = that.parseTempletData(data,field); //按模板进行解析
                     text = text ? text : '';
                     if(field === that.config.treeConfig.showField ){
-                        td = $('<td '+attrsStr.join(" ")+'><div class="'+_divclass+'"><div class="layui-tableTree-div"><span class="layui-tableEdit-span">'+text+'</span></div></div></td>');
+                        td = $('<td '+attrsStr.join(" ")+'><div class="'+_divclass+'" title="'+ that.filterHtmlTagFromStr(text) +'"><div class="layui-tableTree-div"><span class="layui-tableEdit-span">'+text+'</span></div></div></td>');
                         if(data.treeList && data.treeList.length > 0){
                             that.addIcon(newTr,td,lvl);
                         }
                     }else {
-                        newTr.append('<td '+attrsStr.join(" ")+'><div class="'+_divclass+'">'+text+'</div></td>');
+                        newTr.append('<td '+attrsStr.join(" ")+'><div class="'+_divclass+'" title="'+ that.filterHtmlTagFromStr(text) +'">'+text+'</div></td>');
                     }
                 }
                 newTr.append(td);
