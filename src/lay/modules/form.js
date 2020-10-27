@@ -240,6 +240,16 @@ layui.define('layer', function(exports){
               }
               goal.tipTop = goal.top - $selectContaner.offset().top + goal.height + 5;
               goal.tipLeft = goal.left - $selectContaner.offset().left;
+              if(goal.tipTop + $dropDownElement.height() > $selectContaner.height()){
+                // 超过table容器了，向上展开
+                if(goal.tipTop - $dropDownElement.height() < 0){
+                  // 向上也不够空间展开，向右展开此时说明table限制宽度非常不够，往中间走
+                  goal.tipTop = goal.tipTop - (goal.height + $dropDownElement.height()) / 2 ;
+                  goal.tipLeft = goal.tipLeft + goal.width;
+                } else {
+                  goal.tipTop = goal.tipTop - goal.height - $dropDownElement.height() - 25;
+                }
+              }
               $dropDownElement.css({
                 left: goal.tipLeft - $hasTable.scrollLeft(), 
                 top: goal.tipTop  - $hasTable.scrollTop()
