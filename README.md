@@ -112,6 +112,16 @@ layui.use(['layer', 'form'], function(){
 </body>
 </html>  
 ```
+
+## 后续自定义功能
+1、table模块：新增titleTips属性来自定义表头各列的title提示内容
+```html
+options: {
+  title:"<span>title</span>", // 表头带样式
+  titleTips:"title" // 表头提示信息 ， 不填以title 属性为准
+}
+```
+2、table 模块 cell :提示改成title形式（若内容中带有html元素，将会被过滤只留下文字）
 ## [阅读文档](http://www.layui.com/)
 从现在开始，尽情地拥抱 layui 吧！但愿她能成为你长远的开发伴侣，化作你方寸屏幕前的亿万字节！
 
