@@ -155,7 +155,8 @@ layui.define('layer', function(exports){
           if(!$(e.target).parent().hasClass(TITLE) || clear){
             $('.'+CLASS).removeClass(CLASS+'ed ' + CLASS+'up');
              // wgm : hide table select dropdown
-            $('dl.layui-anim.layui-anim-upbit').hide();
+             // 未在table中的不要动
+            $('dl.layui-anim.layui-anim-upbit[table-cell-id]').hide();
             // wgm : hide table select dropdown
             thatInput && initValue && thatInput.val(initValue);
           }
