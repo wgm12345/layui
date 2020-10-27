@@ -375,7 +375,12 @@ layui.define('layer' , function(exports){
     : value;
     
     if(value.length === 0) return;
-
+    for(var i = 0; i < value.length; i++) {
+      if(!RegExp("^[\u4e00-\u9fa5a-zA-Z0-9_()-]+$","i").test(value[i].substring(0,value[i].lastIndexOf('.')))){
+            that.msg('文件名只能是中英文、数字、下划线、横杠、英文括号！');
+            return elemFile.value = '';
+      }
+    }
     switch(options.accept){
       case 'file': //一般文件
         if(exts && !RegExp('\\w\\.('+ exts +')$', 'i').test(escape(value))){
