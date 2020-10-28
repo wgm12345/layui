@@ -1612,7 +1612,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
     };
     
     //单元格编辑
-    that.layBody.on('change', '.'+ELEM_EDIT, function(){
+    that.layBody.on('blur', '.'+ELEM_EDIT, function(){
       var othis = $(this)
       ,value = this.value
       ,field = othis.parent().data('field')
