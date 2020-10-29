@@ -544,7 +544,8 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
 
     //减去边框差和滚动条宽
     cntrWidth = cntrWidth - function(){
-      return (options.skin === 'line' || options.skin === 'nob') ? 2 : colNums + 1;
+      // return (options.skin === 'line' || options.skin === 'nob') ? 2 : colNums + 1;
+      return colNums + 1; // 都带上边框长度1 , 只是 line 和 nob 隐藏 border的颜色
     }() - that.getScrollWidth(that.layMain[0]) - 1;
 
     //计算自动分配的宽度
@@ -608,7 +609,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
       //给设定百分比的列分配列宽
       else if(/\d+%$/.test(item3.width)){
         that.getCssRule(options.index +'-'+ item3.key, function(item){
-          item.style.width = Math.floor((parseFloat(item3.width) / 100) * cntrWidth) + 'px';
+          item.style.width = Math.floor(autoWidth >= minWidth ? autoWidth : minWidth) + 'px';
         });
       }
     });

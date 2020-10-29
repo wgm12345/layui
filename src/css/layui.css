@@ -885,10 +885,15 @@ hr, .layui-timeline-item:before{background-color: #e6e6e6;}
 
 .layui-table th, .layui-table td{position: relative; padding: 9px 15px; min-height: 20px; line-height: 20px;  font-size: 14px;}
 
-.layui-table[lay-skin="line"] th, .layui-table[lay-skin="line"] td{border-width: 0; border-bottom-width: 1px;}
+/* .layui-table[lay-skin="line"] th, .layui-table[lay-skin="line"] td{border-width: 0; border-bottom-width: 1px;} */
 .layui-table[lay-skin="row"] th, .layui-table[lay-skin="row"] td{border-width: 0;border-right-width: 1px;}
-.layui-table[lay-skin="nob"] th, .layui-table[lay-skin="nob"] td{border: none;}
-
+/* .layui-table[lay-skin="nob"] th, .layui-table[lay-skin="nob"] td{border: none;} */
+/* wgm  解决因为 表头必带分割边框带来的 表头宽度 和 内容宽度 不统一*/
+.layui-table[lay-skin="nob"] th, .layui-table[lay-skin="nob"] td{border-width: 0;border-right-width: 1px;}
+.layui-table[lay-skin="line"] th, .layui-table[lay-skin="line"] td{border-width: 0; border-bottom-width: 1px;border-right-width: 1px;}
+.layui-table-main .layui-table[lay-skin="nob"] th, .layui-table[lay-skin="nob"] td{border-width: 0;border-right-width: 1px;border-color: transparent;}
+.layui-table-main .layui-table[lay-skin="line"] th, .layui-table[lay-skin="line"] td{border-width: 0; border-bottom-width: 1px;border-right-width: 1px;border-right-color: transparent;}
+/* wgm */
 .layui-table img{max-width:100px;}
 
 /* 大表格 */.layui-table[lay-size="lg"] th,
@@ -1515,11 +1520,11 @@ p.layui-input-danger-tip{
   bottom:auto;
 }
 
-.layui-table thead  th,.layui-table[lay-skin=nob] thead th {
+/* .layui-table thead  th,.layui-table[lay-skin=nob] thead th {
   border-width: 1px;
   border-style: solid;
   border-color: #e6e6e6;
-}
+} */
 
 
 /* table 中的下拉选择 */
