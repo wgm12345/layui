@@ -609,7 +609,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
       //给设定百分比的列分配列宽
       else if(/\d+%$/.test(item3.width)){
         that.getCssRule(options.index +'-'+ item3.key, function(item){
-          item.style.width = Math.floor(autoWidth >= minWidth ? autoWidth : minWidth) + 'px';
+          item.style.width = Math.floor((parseFloat(item3.width) / 100) * cntrWidth) + 'px';
         });
       }
     });
