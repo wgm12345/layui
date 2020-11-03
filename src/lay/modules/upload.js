@@ -376,7 +376,7 @@ layui.define('layer' , function(exports){
     
     if(value.length === 0) return;
     for(var i = 0; i < value.length; i++) {
-      var reg = /^[\u4e00-\u9fa5a-zA-Z0-9_()（）“”.-\s]+$/g;
+      var reg = /^[\u4e00-\u9fa5a-zA-Z0-9_\(\)（）“”\.\-\s]+$/g;
       if(!reg.test(value[i].substring(0,value[i].lastIndexOf('.')))){
             that.msg('文件名只能是中英文、数字、下划线、横杠、空格、括号、中文双引号、英文句号！');
             return elemFile.value = '';
