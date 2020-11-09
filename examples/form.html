@@ -20,7 +20,9 @@ body{padding: 10px;}
 
 <form class="layui-form layui-form-pane1" action="" lay-filter="first">
   <div class="layui-form-item">
-    <label class="layui-form-label">输入框</label>
+    <div>
+      <input type="checkbox" name="" lay-filter="editCheck" title="部署方式" data-field="deployType" lay-skin="primary">
+    </div>
     <div class="layui-input-block">
       <input type="text" name="title" maxlength="100" minlength="2" lay-verify="required|title" lay-reqText="标题不能为空" required placeholder="请输入标题" autocomplete="off" class="layui-input" >
     </div>

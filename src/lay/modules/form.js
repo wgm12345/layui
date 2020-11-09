@@ -149,7 +149,6 @@ layui.define('layer', function(exports){
         var TIPS = '请选择', CLASS = 'layui-form-select', TITLE = 'layui-select-title'
         ,NONE = 'layui-select-none', initValue = '', thatInput
         ,selects = elemForm.find('select')
-        
         //隐藏 select
         ,hide = function(e, clear){
           if(!$(e.target).parent().hasClass(TITLE) || clear){
@@ -232,6 +231,9 @@ layui.define('layer', function(exports){
                 $dropDownElement = $(reElem).find(".layui-anim-upbit");
                 $dropDownElement.attr("table-cell-id",layerId);
                 $selectContaner.append($dropDownElement);
+                // dl 对象换成 $dropDownElement
+                // dl = $dropDownElement;
+                // dds = dl.children('dd');
                 $(reElem).find(".layui-anim-upbit").remove();
                 $dropDownElement.css("position", 'absolute')
                 .css("min-width",'0px')
@@ -510,7 +512,6 @@ layui.define('layer', function(exports){
           
           $(document).off('click', hide).on('click', hide); //点击其它元素关闭 select
         }
-        
         selects.each(function(index, select){
           var othis = $(this)
           ,hasRender = othis.next('.'+CLASS)
@@ -710,7 +711,6 @@ layui.define('layer', function(exports){
     }())
     // 给input绑定blur校验事件
     $(elemForm).find("input,textarea").unbind("blur").bind("blur",function(e) {
-      // debugger;
       var verify = that.config.verify //验证规则
       ,DANGER = 'layui-form-danger-allways-show' //警示样式
       ,$input = $(this) //当前触发的元素

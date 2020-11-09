@@ -334,7 +334,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
     that.layFixRight = reElem.find(ELEM_FIXR);
     that.layTotal = reElem.find(ELEM_TOTAL);
     that.layPage = reElem.find(ELEM_PAGE);
-    
+    that.layView = reElem;
     //初始化工具栏
     that.renderToolbar();
     
@@ -785,10 +785,12 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
     
     //渲染视图
     ,render = function(){ //后续性能提升的重点
+      // wgm 对应form 处理掉 table里的select
+      that.layView.find("dl.layui-anim-upbit").remove();
       var thisCheckedRowIndex;
       if(!sort && that.sortKey){
         return that.sort(that.sortKey.field, that.sortKey.sort, true);
-      }      
+      }
       layui.each(data, function(i1, item1){
         var tds = [], tds_fixed = [], tds_fixed_r = []
         ,numbers = i1 + options.limit*(curr - 1) + 1; //序号
