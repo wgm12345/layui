@@ -1640,11 +1640,12 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
           templet = item.templet;
         }
       });
-      othis.siblings(ELEM_CELL).html(function(value){
+      var newValue = function(value){
         return parseTempData({
           templet: templet
         }, value, data);
-      }(thisElem.value));
+      }(thisElem.value);
+      othis.siblings(ELEM_CELL).html(newValue).attr("title",newValue);
       othis.parent().data('content', thisElem.value);
       othis.remove();
     });
