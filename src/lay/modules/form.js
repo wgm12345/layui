@@ -703,7 +703,17 @@ layui.define('layer', function(exports){
 
     return that;
   };
-
+  Form.prototype.toggleItemDanger = function($el,$errorTextParent,errorText,show) {
+    var DANGER = 'layui-form-danger-allways-show';
+    if(show) {
+      $errorTextParent.append("<p class='layui-input-danger-tip'>" + errorText + "</p>");
+      $el.addClass(DANGER);
+    }
+    else {
+      $el.removeClass(DANGER); //移除警示样式
+      $errorTextParent.find(".layui-input-danger-tip").remove(); // 移除警告提示
+    }
+  }
   Form.prototype.init = function(filter) {
     var that = this
     ,elemForm = $(ELEM + function(){
