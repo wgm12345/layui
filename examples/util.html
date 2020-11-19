@@ -36,6 +36,17 @@ body{padding: 50px;}
 layui.use('util', function(){
   var util = layui.util
   ,$ = layui.$;
+  // 深拷贝数组测试
+  var params1 = {
+    arr:["1","2","3","4"]
+  }
+  var params2 = {
+    arr:["5","6","7"]
+  }
+  var con = $.extend(true,{},params1,params2);
+  var con2 = $.extend(true,{},params2,params1);
+  console.log(con);
+  console.log(con2);
 
   //固定块
   util.fixbar({

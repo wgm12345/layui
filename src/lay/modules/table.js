@@ -662,7 +662,9 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
     
     if(options.data && options.data.constructor === Array) delete that.config.data;
     that.config = $.extend(true, {}, that.config, options);
-    
+    if(options.where){
+      that.config.where = $.extend({},options.where) // where完全替换
+    }
     that.render();
   };
   
