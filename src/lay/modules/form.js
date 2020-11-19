@@ -714,6 +714,15 @@ layui.define('layer', function(exports){
       $errorTextParent.find(".layui-input-danger-tip").remove(); // 移除警告提示
     }
   }
+  Form.prototype.removeAllDangerWarning = function(filter) {
+    var DANGER = 'layui-form-danger-allways-show';
+    var that = this
+    ,elemForm = $(ELEM + function(){
+      return filter ? ('[lay-filter="' + filter +'"]') : '';
+    }())
+    elemForm.find('.' + DANGER).removeClass(DANGER); // 移除警告样式
+    elemForm.find(".layui-input-danger-tip").remove(); // 移除警告提示
+  }
   Form.prototype.init = function(filter) {
     var that = this
     ,elemForm = $(ELEM + function(){
