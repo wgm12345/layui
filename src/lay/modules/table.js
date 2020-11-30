@@ -87,9 +87,9 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
     // 去掉标签
     var reg = /<[^<>]+>/g;
     var res = str.replace(reg, ' ');
-    // 去掉引号
-    var reg2 = /[\'\"]/g;
-    res = res.replace(reg2,'');
+    // 转义双引号
+    var reg2 = /[\"]/g;
+    res = res.replace(reg2,'&quot;');
     // 去掉注释
     var reg3 = /<!--(.|[\r\n])*?-->/g;
     res = res.replace(reg3,'');
