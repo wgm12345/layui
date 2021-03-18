@@ -268,7 +268,10 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
     options.elem = $(options.elem);
     options.where = options.where || {};
     options.id = options.id || options.elem.attr('id') || that.index;
-
+    // wgm 是否实施懒加载
+    options.lazy = options.lazy || false;
+    options.rowHeight = options.rowHeight || null;
+    // wgm
     //请求参数的自定义格式
     options.request = $.extend({
       pageName: 'page'
@@ -875,10 +878,31 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
           if(item3.fixed && item3.fixed !== 'right') tds_fixed.push(td);
           if(item3.fixed === 'right') tds_fixed_r.push(td);
         });
-        
-        trs.push('<tr data-index="'+ i1 +'">'+ tds.join('') + '</tr>');
-        trs_fixed.push('<tr data-index="'+ i1 +'">'+ tds_fixed.join('') + '</tr>');
-        trs_fixed_r.push('<tr data-index="'+ i1 +'">'+ tds_fixed_r.join('') + '</tr>');
+        // wgm delete
+        // trs.push('<tr data-index="'+ i1 +'">'+ tds.join('') + '</tr>');
+        // trs_fixed.push('<tr data-index="'+ i1 +'">'+ tds_fixed.join('') + '</tr>');
+        // trs_fixed_r.push('<tr data-index="'+ i1 +'">'+ tds_fixed_r.join('') + '</tr>');
+        // wgm delete
+
+        // wgm lazy load 
+        if(that.config.lazy) {
+          // 行不定高只能占位
+          if(that.config.rowHeight){
+            // 定高可按高度计算
+            trs.push('<tr data-index="'+ i1 +'" style="display:none;height:'+ that.config.rowHeight +'px;">'+ tds.join('') + '</tr>');
+            trs_fixed.push('<tr data-index="'+ i1 +'" style="display:none;height:'+ that.config.rowHeight +'px;">'+ tds_fixed.join('') + '</tr>');
+            trs_fixed_r.push('<tr data-index="'+ i1 +'" style="display:none;height:'+ that.config.rowHeight +'px;">'+ tds_fixed_r.join('') + '</tr>');
+          } else {
+            trs.push('<tr data-index="'+ i1 +'" style="visibility:hidden">'+ tds.join('') + '</tr>');
+            trs_fixed.push('<tr data-index="'+ i1 +'" style="visibility:hidden">'+ tds_fixed.join('') + '</tr>');
+            trs_fixed_r.push('<tr data-index="'+ i1 +'" style="visibility:hidden">'+ tds_fixed_r.join('') + '</tr>');
+          }
+        } else {
+          trs.push('<tr data-index="'+ i1 +'">'+ tds.join('') + '</tr>');
+          trs_fixed.push('<tr data-index="'+ i1 +'">'+ tds_fixed.join('') + '</tr>');
+          trs_fixed_r.push('<tr data-index="'+ i1 +'">'+ tds_fixed_r.join('') + '</tr>');
+        }
+        // wgm 
       });
 
       that.layBody.scrollTop(0);
@@ -886,6 +910,96 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
       that.layMain.find('tbody').html(trs.join(''));
       that.layFixLeft.find('tbody').html(trs_fixed.join(''));
       that.layFixRight.find('tbody').html(trs_fixed_r.join(''));
+
+      // wgm lazy load 
+      if(that.config.lazy) {
+        var step = 100;
+        that.tableTrOffsetTop = [];
+        if(!that.config.rowHeight){
+          $(that.layBody).find('tbody').find("tr").each(function(index,item) {
+            that.tableTrOffsetTop.push(item.offsetTop);
+            if(index == that.tableTrOffsetTop.length - 1){
+              that.tableTrOffsetTop.push(item.offsetTop + $(item).height());
+            }
+          });
+        } else {
+          $(that.layBody).find('tbody').find("tr").each(function(index,item) {
+            that.tableTrOffsetTop.push(index * that.config.rowHeight);
+          });
+        }
+
+        // init
+        var windowHeight = $(that.layMain).height();
+        var i = 0;
+        for(; i < that.tableTrOffsetTop.length;i++) {
+          if(that.tableTrOffsetTop[i] >= windowHeight + step) {
+            break;
+          }
+        }
+        var tableTrOffsetTopLength = that.tableTrOffsetTop.length - 1 > 0 ? that.tableTrOffsetTop.length - 1 : 0;
+        // $(that.layBody).find('tbody').height(that.tableTrOffsetTop[length]);
+        $(that.layBody).find('tbody').prepend("<tr class='start_placeholder'></tr>"); // 占位
+        $(that.layBody).find('tbody').append("<tr class='end_placeholder'></tr>"); // 占位
+        var endOffset = that.tableTrOffsetTop[tableTrOffsetTopLength];
+        $(that.layMain).find('tbody tr').css('visibility','visible');
+        $(that.layMain).find('tbody tr:lt('+ i +')').show();
+        $(that.layMain).find('tbody tr:gt('+ i +')').hide();
+        $(that.layBody).find('tbody tr.end_placeholder').show().css('height', endOffset);
+        
+        var oldScrollTop = 0;
+        var scrollCallback = function() {
+          var el = that.layMain;
+          var scrollTop = $(el).scrollTop();
+          // var scrollHeight = $(document).height();
+          var windowHeight = $(el).height();
+          // if (scrollTop + windowHeight != scrollHeight) return;
+          if(oldScrollTop == scrollTop) return; 
+          if(Math.abs(oldScrollTop - scrollTop) < step && scrollTop != 0 ) return;
+          oldScrollTop = scrollTop;
+          var i = 0;
+          for(; i < that.tableTrOffsetTop.length;i++) {
+            if(that.tableTrOffsetTop[i] >= scrollTop) {
+              break;
+            }
+          }
+          // 可视区域tr index[start,end]
+          var start ,end;
+          if(i > 0){
+            start =  i;
+          } else {
+            start = 0;
+          }
+          for(; i < that.tableTrOffsetTop.length;i++) {
+            if(that.tableTrOffsetTop[i] >= scrollTop + windowHeight) {
+              break;
+            }
+          }
+          if(i > 0){
+            end =  i;
+          } else {
+            end = 0;
+          }
+          start = start - 1 > 1 ? start - 1 : 1;
+          end = end + 1 > that.tableTrOffsetTop.length ? that.tableTrOffsetTop.length : end + 1;
+
+          // hide
+          $(el).find('tbody tr:lt('+ start +')').hide();
+          $(el).find('tbody tr:gt('+ end +')').hide();
+          // show
+          $(el).find('tbody tr:gt('+ start +')').filter('tr:lt('+ end +')').show();
+          $(el).find('tbody tr:eq('+ start +')').show();
+          // 占位tr 设定高度
+          $(el).find('tbody tr.start_placeholder').show().css('height',that.tableTrOffsetTop[start - 1]);
+          $(el).find('tbody tr.end_placeholder').show().css('height', that.tableTrOffsetTop[tableTrOffsetTopLength] - that.tableTrOffsetTop[end]);
+          if(scrollTop > that.tableTrOffsetTop[tableTrOffsetTopLength]) {
+            // 滚动条触底
+            $(el).find('tbody tr.end_placeholder').show().css('height', 0);
+          }
+        };
+
+        $(that.layMain).scroll(util.debounce(scrollCallback,500));
+      }
+      // wgm
 
       that.renderForm();
       typeof thisCheckedRowIndex === 'number' && that.setThisRowChecked(thisCheckedRowIndex);

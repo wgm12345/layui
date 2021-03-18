@@ -196,6 +196,13 @@ layui.define('jquery', function(exports){
       
       return obj;
     }
+    ,debounce: function(fn, wait){
+      var timeout = null;    
+      return function() {   
+          if(timeout !== null)   clearTimeout(timeout);        
+          timeout = setTimeout(fn, wait);    
+      }
+    }
   };
   
   //监听 DOM 尺寸变化，该创意来自：http://benalman.com/projects/jquery-resize-plugin/
