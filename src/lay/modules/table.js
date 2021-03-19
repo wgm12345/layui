@@ -938,12 +938,13 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
         }
         var tableTrOffsetTopLength = that.tableTrOffsetTop.length - 1 > 0 ? that.tableTrOffsetTop.length - 1 : 0;
         // $(that.layBody).find('tbody').height(that.tableTrOffsetTop[length]);
-        $(that.layBody).find('tbody').prepend("<tr class='start_placeholder'></tr>"); // 占位
-        $(that.layBody).find('tbody').append("<tr class='end_placeholder'></tr>"); // 占位
-        var endOffset = that.tableTrOffsetTop[tableTrOffsetTopLength];
         $(that.layMain).find('tbody tr').css('visibility','visible');
         $(that.layMain).find('tbody tr:lt('+ i +')').show();
         $(that.layMain).find('tbody tr:gt('+ i +')').hide();
+        $(that.layBody).find('tbody').prepend("<tr class='start_placeholder'></tr>"); // 占位
+        $(that.layBody).find('tbody').append("<tr class='end_placeholder'></tr>"); // 占位
+        var endOffset = that.tableTrOffsetTop[tableTrOffsetTopLength];
+        if(endOffset < windowHeight) endOffset = 0;
         $(that.layBody).find('tbody tr.end_placeholder').show().css('height', endOffset);
         
         var oldScrollTop = 0;
