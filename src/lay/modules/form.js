@@ -482,6 +482,7 @@ layui.define('layer', function(exports){
 
           //选择
           dds.on('click', function(){
+            debugger;
             var othis = $(this), value = othis.attr('lay-value');
             var filter = select.attr('lay-filter'); //获取过滤器
             
@@ -491,6 +492,7 @@ layui.define('layer', function(exports){
               input.val('');
             } else {
               input.val(othis.text());
+              $(input).attr('title',othis.text());
               othis.addClass(THIS);
             }
 
@@ -533,6 +535,7 @@ layui.define('layer', function(exports){
             ,'<div class="'+ TITLE +'">'
               ,('<input type="text" placeholder="'+ placeholder +'" '
                 +('value="'+ (value ? selected.html() : '') +'"') //默认值
+                +(' title="'+ (value ? selected.html() : '') +'" ') //默认title
                 +((!disabled && isSearch) ? '' : ' readonly') //是否开启搜索
                 +' class="layui-input'
                 +(isSearch ? '' : ' layui-unselect') 
