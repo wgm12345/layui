@@ -191,6 +191,7 @@ body{padding: 10px;}
   <div class="layui-form-item">
     <div class="layui-input-block">
       <button class="layui-btn" lay-submit lay-filter="*">立即提交</button>
+      <div class="layui-btn" id='validateBtn' lay-filter="validate">立即提交(通过filter触发校验)</div>
       <button type="reset" class="layui-btn layui-btn-primary">重置</button>
     </div>
   </div>
@@ -205,6 +206,7 @@ body{padding: 10px;}
 <script>
 
 layui.use(['form', 'layedit', 'laydate'], function(){
+  var $ = layui.jquery;
   var form = layui.form
   ,layer = layui.layer
   ,layedit = layui.layedit
@@ -279,6 +281,9 @@ layui.use(['form', 'layedit', 'laydate'], function(){
     alert(JSON.stringify(data.field));
     return false;
   });
+  $("#validateBtn").on('click',function() {
+    form.validateForm('first');
+  })
   
 });
 

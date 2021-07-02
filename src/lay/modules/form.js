@@ -482,7 +482,6 @@ layui.define('layer', function(exports){
 
           //选择
           dds.on('click', function(){
-            debugger;
             var othis = $(this), value = othis.attr('lay-value');
             var filter = select.attr('lay-filter'); //获取过滤器
             
@@ -819,6 +818,76 @@ layui.define('layer', function(exports){
       })
     });
   }
+
+    //通过lay-filter 进行表单校验
+  Form.prototype.validateForm = function(filter){
+    var stop = null //验证不通过状态
+    ,verify = form.config.verify //验证规则
+    ,DANGER = 'layui-form-danger' //警示样式
+    ,elem = $(ELEM + '[lay-filter="' + filter +'"]') //当前所在表单域
+    ,verifyElem = $(elem[0]).find('*[lay-verify]') //获取需要校验的元素 , 解决表单嵌套
+    if(elem.length <= 0) return false; // 没有找到表单 返回不成功
+
+    //开始校验 和submit代码部分重复
+    layui.each(verifyElem, function(_, item){
+      var othis = $(this)
+      ,vers = othis.attr('lay-verify').split('|')
+      ,verType = othis.attr('lay-verType') //提示方式
+      ,value = othis.val();
+      
+      othis.removeClass(DANGER); //移除警示样式
+      
+      //遍历元素绑定的验证规则
+      layui.each(vers, function(_, thisVer){
+        var isTrue //是否命中校验
+        ,errorText = '' //错误提示文本
+        ,isFn = typeof verify[thisVer] === 'function';
+        
+        //匹配验证规则
+        if(verify[thisVer]){
+          var isTrue = isFn ? errorText = verify[thisVer](value, item) : !verify[thisVer][0].test(value);
+          errorText = errorText || verify[thisVer][1];
+          
+          if(thisVer === 'required'){
+            errorText = othis.attr('lay-reqText') || errorText;
+          }
+          
+          //如果是必填项或者非空命中校验，则阻止提交，弹出提示
+          if(isTrue){
+            //提示层风格
+            if(verType === 'tips'){
+              layer.tips(errorText, function(){
+                if(typeof othis.attr('lay-ignore') !== 'string'){
+                  if(item.tagName.toLowerCase() === 'select' || /^checkbox|radio$/.test(item.type)){
+                    return othis.next();
+                  }
+                }
+                return othis;
+              }(), {tips: 1});
+            } else if(verType === 'alert') {
+              layer.alert(errorText, {title: '提示', shadeClose: true});
+            } else {
+              layer.msg(errorText, {icon: 5, shift: 6});
+            }
+            
+            //非移动设备自动定位焦点
+            if(!device.android && !device.ios){
+              setTimeout(function(){
+                item.focus(); 
+              }, 7);
+            }
+            
+            othis.addClass(DANGER);
+            return stop = true;
+          }
+        }
+      });
+      if(stop) return stop;
+    });
+    
+    if(stop) return false;
+    return true;
+  };
   
   //表单提交校验
   var submit = function(){
@@ -834,7 +903,7 @@ layui.define('layer', function(exports){
     ,filter = button.attr('lay-filter'); //获取过滤器
    
     
-    //开始校验
+    //开始校验 和validateForm代码部分重复
     layui.each(verifyElem, function(_, item){
       var othis = $(this)
       ,vers = othis.attr('lay-verify').split('|')
